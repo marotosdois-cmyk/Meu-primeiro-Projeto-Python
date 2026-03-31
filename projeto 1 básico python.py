@@ -4,6 +4,7 @@ Basic Python project using functions and input validation.
 
 Author: Rafael Dias
 """
+import sqlite3
 ponto_cheio = '●'
 ponto_vazio = '○'
 nome = input("Digite o nome do personagem: ")
@@ -215,3 +216,23 @@ def calcular_dano():
         atributo_principal += 3
     return f"O dano causado pelo personagem é: {atributo_principal}"
 
+
+conexao = sqlite3.connect('banco.db')
+cursor = conexao.cursor()
+cursor.execute("""
+INSERT INTO personagens (
+nome, raca, idade, altura,
+forca, destreza, inteligencia,
+sabedoria, carisma, vitalidade,
+vida_maxima, classe, arma, armadura
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+""", (
+nome, raça_escolhida, idade, altura,
+força, destreza, inteligência,
+sabedoria, carisma, vitalidade,
+vida_maxima, classe_escolhida,
+arma_escolhida, armadura_escolhida
+))
+conexao.commit()
+conexao.close()
